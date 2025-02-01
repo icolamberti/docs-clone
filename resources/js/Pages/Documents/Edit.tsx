@@ -4,7 +4,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 export default function () {
   return (
     <AuthenticatedLayout>
-      <Editor />
+      <div className='min-h-screen bg-[#fafbfd]'>
+        <Editor />
+      </div>
     </AuthenticatedLayout>
   )
 }
