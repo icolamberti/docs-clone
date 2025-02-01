@@ -12,7 +12,7 @@ class EmailVerificationPromptController extends Controller
   public function __invoke(Request $request): RedirectResponse|Response
   {
     return $request->user()->hasVerifiedEmail()
-      ? redirect()->intended(route('home', absolute: false))
+      ? redirect()->intended(route('documents.index', absolute: false))
       : inertia('Auth/VerifyEmail', ['status' => session('status')]);
   }
 }
