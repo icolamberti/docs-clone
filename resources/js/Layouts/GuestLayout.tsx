@@ -1,17 +1,21 @@
-import ApplicationLogo from '@/Components/ApplicationLogo'
 import { Link } from '@inertiajs/react'
+import { FileTextIcon } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 
 export default function ({ children }: PropsWithChildren) {
   return (
-    <div className='flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0'>
+    <div className='flex min-h-screen flex-col items-center gap-6 bg-gray-100 pt-6 sm:justify-center sm:pt-0'>
       <div>
-        <Link href='/'>
-          <ApplicationLogo className='h-20 w-20 fill-current text-gray-500' />
+        <Link
+          href='/'
+          className='flex items-center gap-x-2 text-2xl font-bold text-sky-600'
+        >
+          <FileTextIcon className='size-10 fill-white' />
+          My Docs
         </Link>
       </div>
 
-      <div className='mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg'>
+      <div className='flex w-full flex-col items-center md:h-auto md:max-w-md'>
         {children}
       </div>
     </div>

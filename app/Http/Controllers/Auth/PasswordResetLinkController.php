@@ -13,9 +13,7 @@ class PasswordResetLinkController extends Controller
 {
   public function create(): Response
   {
-    return inertia('Auth/ForgotPassword', [
-      'status' => session('status'),
-    ]);
+    return inertia('Auth/ForgotPassword', ['status' => session('status')]);
   }
 
   public function store(Request $request): RedirectResponse
@@ -25,11 +23,9 @@ class PasswordResetLinkController extends Controller
     ]);
 
     $status = Password::sendResetLink($request->only('email'));
-
     if ($status == Password::RESET_LINK_SENT) {
       return back()->with('status', __($status));
     }
-
     throw ValidationException::withMessages([
       'email' => [trans($status)],
     ]);

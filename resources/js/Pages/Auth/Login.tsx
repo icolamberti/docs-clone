@@ -1,20 +1,27 @@
-import Checkbox from '@/Components/Checkbox'
-import InputError from '@/Components/InputError'
-import InputLabel from '@/Components/InputLabel'
-import PrimaryButton from '@/Components/PrimaryButton'
-import TextInput from '@/Components/TextInput'
+import { Button } from '@/Components/Ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/Components/Ui/card'
+import { Checkbox } from '@/Components/Ui/checkbox'
+import { Input } from '@/Components/Ui/input'
+import { Label } from '@/Components/Ui/label'
 import GuestLayout from '@/Layouts/GuestLayout'
-import { Head, Link, useForm } from '@inertiajs/react'
+import { Link, useForm } from '@inertiajs/react'
+import { TriangleAlert } from 'lucide-react'
 import { FormEventHandler } from 'react'
 
-export default function Login({
-  status,
-  canResetPassword,
-}: {
-  status?: string
-  canResetPassword: boolean
-}) {
-  const { data, setData, post, processing, errors, reset } = useForm({
+type FormData = {
+  email: string
+  password: string
+  remember: boolean
+}
+
+export default function () {
+  const { data, setData, post, processing, errors, reset } = useForm<FormData>({
     email: '',
     password: '',
     remember: false,
@@ -23,79 +30,94 @@ export default function Login({
   const submit: FormEventHandler = e => {
     e.preventDefault()
 
-    post(route('login'), {
+    post('', {
       onFinish: () => reset('password'),
     })
   }
 
   return (
     <GuestLayout>
-      <Head title='Log in' />
+      <Card className='h-full w-full p-8'>
+        <CardHeader className='px-0 pt-0'>
+          <CardTitle>Login</CardTitle>
 
-      {status && (
-        <div className='mb-4 text-sm font-medium text-green-600'>{status}</div>
-      )}
+          <CardDescription>Use your email to continue</CardDescription>
+        </CardHeader>
 
-      <form onSubmit={submit}>
-        <div>
-          <InputLabel htmlFor='email' value='Email' />
+        <CardContent className='space-y-5 px-0 pb-0'>
+          <form onSubmit={submit} className='flex flex-col gap-y-2.5'>
+            {errors.email && (
+              <div className='mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive'>
+                <TriangleAlert className='size-4' />
 
-          <TextInput
-            id='email'
-            type='email'
-            name='email'
-            value={data.email}
-            className='mt-1 block w-full'
-            autoComplete='username'
-            isFocused={true}
-            onChange={e => setData('email', e.target.value)}
-          />
+                <p>{errors.email}</p>
+              </div>
+            )}
 
-          <InputError message={errors.email} className='mt-2' />
-        </div>
+            <div>
+              <Label htmlFor='email'>Email</Label>
 
-        <div className='mt-4'>
-          <InputLabel htmlFor='password' value='Password' />
+              <Input
+                id='email'
+                type='email'
+                disabled={processing}
+                value={data.email}
+                onChange={event => setData('email', event.target.value)}
+                required
+              />
+            </div>
 
-          <TextInput
-            id='password'
-            type='password'
-            name='password'
-            value={data.password}
-            className='mt-1 block w-full'
-            autoComplete='current-password'
-            onChange={e => setData('password', e.target.value)}
-          />
+            <div>
+              <Label htmlFor='password'>Password</Label>
 
-          <InputError message={errors.password} className='mt-2' />
-        </div>
+              <Input
+                id='password'
+                type='password'
+                disabled={processing}
+                value={data.password}
+                onChange={event => setData('password', event.target.value)}
+                required
+              />
+            </div>
 
-        <div className='mt-4 block'>
-          <label className='flex items-center'>
-            <Checkbox
-              name='remember'
-              checked={data.remember}
-              onChange={e => setData('remember', e.target.checked)}
-            />
-            <span className='ms-2 text-sm text-gray-600'>Remember me</span>
-          </label>
-        </div>
+            <div className='flex justify-between'>
+              <div className='flex items-center gap-2'>
+                <Checkbox
+                  id='remember'
+                  checked={data.remember}
+                  onCheckedChange={() => setData('remember', !data.remember)}
+                  disabled={processing}
+                />
 
-        <div className='mt-4 flex items-center justify-end'>
-          {canResetPassword && (
-            <Link
-              href={route('password.request')}
-              className='rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                <Label htmlFor='remember'>Remember me</Label>
+              </div>
+
+              <Link
+                href='/forgot-password'
+                className='text-xs text-muted-foreground hover:underline'
+              >
+                Forgot your password?
+              </Link>
+            </div>
+
+            <Button
+              isLoading={processing}
+              type='submit'
+              className='mt-5 w-full'
+              size={'lg'}
             >
-              Forgot your password?
-            </Link>
-          )}
+              Continue
+            </Button>
+          </form>
 
-          <PrimaryButton className='ms-4' disabled={processing}>
-            Log in
-          </PrimaryButton>
-        </div>
-      </form>
+          <p className='text-center text-xs text-muted-foreground'>
+            Don't have an account?{' '}
+            <Link href='register' className='text-sky-700 hover:underline'>
+              Register
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
     </GuestLayout>
   )
 }

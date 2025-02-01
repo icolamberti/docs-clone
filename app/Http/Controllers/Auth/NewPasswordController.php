@@ -40,13 +40,12 @@ class NewPasswordController extends Controller
             'remember_token' => Str::random(60),
           ])
           ->save();
-
         event(new PasswordReset($user));
       }
     );
 
     if ($status == Password::PASSWORD_RESET) {
-      return redirect()->route('login')->with('status', __($status));
+      return to_route('login')->with('status', __($status));
     }
 
     throw ValidationException::withMessages([
