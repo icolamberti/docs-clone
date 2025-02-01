@@ -54,8 +54,8 @@ export default function VerifyEmail({ status }: { status?: string }) {
                 <Link href='/logout' method='post' as='button'>
                   <Button
                     type='button'
-                    variant={'outline'}
-                    className='mt-5 w-full border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive'
+                    variant={'destructive'}
+                    className='mt-5 w-full border border-destructive bg-background text-destructive hover:text-destructive-foreground'
                   >
                     Logout
                   </Button>

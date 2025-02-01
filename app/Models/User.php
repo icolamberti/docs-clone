@@ -12,9 +12,15 @@ class User extends Authenticatable implements MustVerifyEmail
 {
   use HasFactory, Notifiable, HasUuids;
 
-  protected $fillable = ['name', 'email', 'password'];
+  protected $fillable = ['name', 'email', 'password', 'email_verified_at'];
 
-  protected $hidden = ['password', 'remember_token'];
+  protected $hidden = [
+    'password',
+    'remember_token',
+    'email_verified_at',
+    'created_at',
+    'updated_at',
+  ];
 
   protected function casts(): array
   {
