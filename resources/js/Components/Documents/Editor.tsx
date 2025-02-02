@@ -1,5 +1,6 @@
 import { useEditorStore } from '@/Stores/useEditorStore'
 import { FontSizeExtension } from '@/TiptapExtensions/fontSize'
+import { LineHeightExtension } from '@/TiptapExtensions/lineHeight'
 import Color from '@tiptap/extension-color'
 import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
@@ -61,6 +62,7 @@ export default function () {
       Highlight.configure({ multicolor: true }),
       Image,
       ImageResize,
+      LineHeightExtension,
       Link.configure({
         openOnClick: false,
         autolink: true,
