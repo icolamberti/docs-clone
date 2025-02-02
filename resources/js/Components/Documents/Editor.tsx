@@ -1,4 +1,5 @@
 import { useEditorStore } from '@/Stores/useEditorStore'
+import { FontSizeExtension } from '@/TiptapExtensions/fontSize'
 import Color from '@tiptap/extension-color'
 import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
@@ -56,6 +57,7 @@ export default function () {
       StarterKit,
       Color,
       FontFamily,
+      FontSizeExtension,
       Highlight.configure({ multicolor: true }),
       Image,
       ImageResize,
