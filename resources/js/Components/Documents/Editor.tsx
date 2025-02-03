@@ -18,6 +18,7 @@ import Underline from '@tiptap/extension-underline'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import ImageResize from 'tiptap-extension-resize-image'
+import Ruler from './Ruler'
 
 export default function () {
   const { setEditor } = useEditorStore()
@@ -102,6 +103,7 @@ export default function () {
 
   return (
     <div className='size-full overflow-x-auto bg-[#f9fbfd] px-4 print:overflow-visible print:bg-white print:p-0'>
+      <Ruler />
       <div className='mx-auto flex w-[816px] min-w-max justify-center py-4 print:w-full print:min-w-0 print:py-0'>
         <EditorContent editor={editor} />
       </div>
