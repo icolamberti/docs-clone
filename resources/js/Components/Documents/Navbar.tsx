@@ -88,7 +88,7 @@ export default function () {
   return (
     <nav className='flex items-center justify-between'>
       <div className='flex items-center gap-2'>
-        <Link href='/documents'>
+        <Link href='/'>
           <img src='/logo.svg' alt='Logo' className='size-9' />
         </Link>
 
