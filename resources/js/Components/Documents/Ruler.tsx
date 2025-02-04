@@ -68,12 +68,9 @@ export default function () {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
-      className='relative flex h-6 select-none items-end border-b border-gray-300 print:hidden'
+      className='relative mx-auto flex h-6 w-[816px] select-none items-end border-b border-gray-300 print:hidden'
     >
-      <div
-        id='ruler-container'
-        className='relative mx-auto h-full w-full max-w-[816px]'
-      >
+      <div id='ruler-container' className='relative h-full w-full'>
         <Marker
           position={leftMargin}
           isLeft
