@@ -1,8 +1,15 @@
 import Navbar from '@/Components/Home/Navbar'
 import TemplatesGallery from '@/Components/Home/TemplatesGallery'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import { TDocument } from '@/types/documents'
 
-export default function () {
+type Props = {
+  documents: TDocument[]
+}
+
+export default function ({ documents }: Props) {
+  console.log('documents', documents)
+
   return (
     <AuthenticatedLayout>
       <div className='flex min-h-screen flex-col'>

@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
   public function index()
   {
-    return inertia('Documents/Index');
+    $search = request('search');
+    $documents = Auth::user()
+      ->documents()
+      ->when($search, function ($query, $search) {
+        return $query->whereFullText('title', $search);
+      })
+      ->get();
+
+    return inertia('Documents/Index', [
+      'documents' => $documents,
+    ]);
   }
 
   public function create()
@@ -18,7 +29,12 @@ class DocumentController extends Controller
 
   public function store(Request $request)
   {
-    //
+    $user = Auth::user();
+
+    $user->documents()->create([
+      'title' => $request->title ?? 'Untitled document',
+      'initialContent' => $request->initialContent,
+    ]);
   }
 
   public function show(string $id)
