@@ -1,6 +1,6 @@
 import Navbar from '@/Components/Home/Navbar'
+import TemplatesGallery from '@/Components/Home/TemplatesGallery'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { Link } from '@inertiajs/react'
 
 export default function () {
   return (
@@ -11,9 +11,7 @@ export default function () {
         </div>
 
         <div className='mt-16'>
-          <Link href='/documents/d12345' className='text-blue-500 underline'>
-            Editor Page
-          </Link>
+          <TemplatesGallery />
         </div>
       </div>
     </AuthenticatedLayout>
