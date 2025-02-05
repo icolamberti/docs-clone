@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react'
+import { router, useForm } from '@inertiajs/react'
 import { SearchIcon, XIcon } from 'lucide-react'
 import { useRef } from 'react'
 import { Button } from '../Ui/button'
@@ -19,8 +19,7 @@ export default function () {
   }
 
   const handleClear = () => {
-    reset()
-    inputRef.current?.blur()
+    router.get('/')
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react'
 import SearchInput from './SearchInput'
+import UserButton from './UserButton'
 
 export default function () {
   return (
@@ -14,7 +15,7 @@ export default function () {
 
       <SearchInput />
 
-      <div />
+      <UserButton />
     </nav>
   )
 }
