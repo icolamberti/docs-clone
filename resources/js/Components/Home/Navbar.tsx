@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react'
+import UserButton from '../UserButton'
 import SearchInput from './SearchInput'
-import UserButton from './UserButton'
 
 export default function () {
   return (

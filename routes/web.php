@@ -10,6 +10,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
   //   ->name('documents.')
   //   ->group(function () {
   Route::get('', [DocumentController::class, 'index'])->name('documents.index');
+  Route::get('documents/get', [DocumentController::class, 'get'])->name(
+    'documents.get'
+  );
   Route::resource('documents', DocumentController::class)->except([
     'index',
     'edit',

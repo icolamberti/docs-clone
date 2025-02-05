@@ -1,12 +1,12 @@
 import { Link, usePage } from '@inertiajs/react'
 import { LogOutIcon } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '../Ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from './Ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../Ui/dropdown-menu'
+} from './Ui/dropdown-menu'
 
 export default function () {
   const { user } = usePage().props.auth

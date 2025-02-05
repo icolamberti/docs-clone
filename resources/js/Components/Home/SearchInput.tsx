@@ -1,31 +1,30 @@
-import { router, useForm } from '@inertiajs/react'
+import { useSearch } from '@/Hooks/UseSearch'
 import { SearchIcon, XIcon } from 'lucide-react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Button } from '../Ui/button'
 import { Input } from '../Ui/input'
 
 export default function () {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const queryParams = new URLSearchParams(window.location.search)
-  const searchQuery = queryParams.get('search') || ''
+  const { search, setSearch } = useSearch()
 
-  const { data, setData, reset, get } = useForm({
-    search: searchQuery,
-  })
+  const [value, setValue] = useState(search || '')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData('search', e.target.value)
+    setValue(e.target.value)
   }
 
   const handleClear = () => {
-    router.get('/')
+    setSearch(null)
+    setValue('')
+    inputRef.current?.blur()
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    get('/')
+    setSearch(value)
   }
 
   return (
@@ -34,7 +33,7 @@ export default function () {
         <Input
           ref={inputRef}
           placeholder='Search'
-          value={data.search}
+          value={value}
           onChange={handleChange}
           className='h-12 w-full rounded-full border-none bg-[#f0f4f8] px-14 placeholder:text-neutral-800 focus:bg-white focus-visible:shadow-[0_1px_1px_0_rgba(65,69,73,.3),0_1px_3px_1px_rgba(65,69,73,.15)] focus-visible:ring-0 focus-visible:ring-offset-0 md:text-base'
         />
@@ -47,7 +46,7 @@ export default function () {
           <SearchIcon className='size-5' />
         </Button>
 
-        {data.search && (
+        {value && (
           <Button
             type='button'
             variant='ghost'

@@ -1,5 +1,7 @@
 import { templates } from '@/Constants/templates'
 import { cn } from '@/Lib/utils'
+import { router } from '@inertiajs/react'
+import { useState } from 'react'
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +11,22 @@ import {
 } from '../Ui/carousel'
 
 export default function () {
-  const isCreating = false
+  const [isCreating, setIsCreating] = useState(false)
+
+  const onTemplateClick = (title: string, initialContent: string) => {
+    setIsCreating(true)
+
+    router.post(
+      '/documents',
+      {
+        title,
+        initialContent,
+      },
+      {
+        onFinish: () => setIsCreating(false),
+      },
+    )
+  }
 
   return (
     <div className='bg-[#f1f3f4]'>
@@ -31,7 +48,8 @@ export default function () {
                 >
                   <button
                     disabled={isCreating}
-                    onClick={() => {}}
+                    // TODO: Add proper initial content
+                    onClick={() => onTemplateClick(template.label, '')}
                     style={{
                       backgroundImage: `url(${template.imageUrl})`,
                       backgroundSize: 'cover',

@@ -7,19 +7,23 @@ use Illuminate\Support\Facades\Auth;
 
 class DocumentController extends Controller
 {
-  public function index()
+  public function get(Request $request)
   {
-    $search = request('search');
+    $search = $request->search;
+
     $documents = Auth::user()
       ->documents()
       ->when($search, function ($query, $search) {
         return $query->whereFullText('title', $search);
       })
-      ->get();
+      ->paginate(5);
 
-    return inertia('Documents/Index', [
-      'documents' => $documents,
-    ]);
+    return $documents;
+  }
+
+  public function index()
+  {
+    return inertia('Documents/Index');
   }
 
   public function create()
@@ -31,10 +35,12 @@ class DocumentController extends Controller
   {
     $user = Auth::user();
 
-    $user->documents()->create([
+    $document = $user->documents()->create([
       'title' => $request->title ?? 'Untitled document',
       'initialContent' => $request->initialContent,
     ]);
+
+    return to_route('documents.show', $document->id);
   }
 
   public function show(string $id)
