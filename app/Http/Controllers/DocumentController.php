@@ -16,7 +16,7 @@ class DocumentController extends Controller
       ->when($search, function ($query, $search) {
         return $query->whereFullText('title', $search);
       })
-      ->paginate(5);
+      ->paginate(10);
 
     return $documents;
   }
@@ -54,11 +54,25 @@ class DocumentController extends Controller
 
   public function update(Request $request, string $id)
   {
-    //
+    $request->validate([
+      'title' => 'required|string|max:255',
+    ]);
+
+    $user = Auth::user();
+
+    $document = $user->documents()->findOrFail($id);
+
+    $document->update([
+      'title' => $request->title,
+    ]);
   }
 
   public function destroy(string $id)
   {
-    //
+    $user = Auth::user();
+
+    $document = $user->documents()->findOrFail($id);
+
+    $document->delete();
   }
 }

@@ -1,17 +1,22 @@
 import { TDocument } from '@/types/documents'
+import { router } from '@inertiajs/react'
 import { format } from 'date-fns'
-import { Building2Icon, CircleUserIcon, MoreVerticalIcon } from 'lucide-react'
+import { Building2Icon, CircleUserIcon } from 'lucide-react'
 import { SiGoogledocs } from 'react-icons/si'
-import { Button } from '../Ui/button'
 import { TableCell, TableRow } from '../Ui/table'
+import DocumentMenu from './DocumentMenu'
 
 type Props = {
   document: TDocument
 }
 
 export default function ({ document }: Props) {
+  const onRowClick = () => {
+    router.visit(`/documents/${document.id}`)
+  }
+
   return (
-    <TableRow className='cursor-pointer'>
+    <TableRow className='cursor-pointer' onClick={onRowClick}>
       <TableCell className='w-[50px]'>
         <SiGoogledocs className='size-6 fill-blue-500' />
       </TableCell>
@@ -33,9 +38,7 @@ export default function ({ document }: Props) {
       </TableCell>
 
       <TableCell className='flex justify-end'>
-        <Button variant='ghost' size='icon' className='rounded-full'>
-          <MoreVerticalIcon className='size-4' />
-        </Button>
+        <DocumentMenu document={document} />
       </TableCell>
     </TableRow>
   )

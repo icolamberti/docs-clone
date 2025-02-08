@@ -1,23 +1,19 @@
+import { useDocuments } from '@/Context/DocumentsContext'
 import { useSearch } from '@/Hooks/UseSearch'
 import { TDocument } from '@/types/documents'
 import { TMetadata } from '@/types/pagination'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Loader from '../Loader'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../Ui/table'
+import { Button } from '../Ui/button'
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '../Ui/table'
 import DocumentRow from './DocumentRow'
 
 export default function () {
   const { search, setSearch } = useSearch()
 
-  const [documents, setDocuments] = useState<TDocument[]>([])
+  const { documents, setDocuments } = useDocuments()
+
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [hasMore, setHasMore] = useState<boolean>(false)
   const [metadata, setMetadata] = useState<TMetadata>({
@@ -68,8 +64,10 @@ export default function () {
 
   return (
     <div className='mx-auto flex max-w-screen-xl flex-col gap-5 px-16 py-6'>
-      {isLoading ? (
-        <Loader className='mx-auto mt-16 size-10 stroke-blue-500' />
+      {documents.length === 0 && !isLoading ? (
+        <div className='flex h-24 items-center justify-center text-muted-foreground'>
+          No documents found
+        </div>
       ) : (
         <Table>
           <TableHeader>
@@ -81,25 +79,27 @@ export default function () {
             </TableRow>
           </TableHeader>
 
-          {documents.length === 0 ? (
-            <TableBody>
-              <TableRow className='hover:bg-transparent'>
-                <TableCell
-                  colSpan={4}
-                  className='h-24 text-center text-muted-foreground'
-                >
-                  No documents found
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          ) : (
-            <TableBody>
-              {documents.map(document => (
-                <DocumentRow key={document.id} document={document} />
-              ))}
-            </TableBody>
-          )}
+          <TableBody>
+            {documents.map(document => (
+              <DocumentRow key={document.id} document={document} />
+            ))}
+          </TableBody>
         </Table>
+      )}
+
+      {isLoading && <Loader className='mx-auto size-8 stroke-blue-500' />}
+
+      {!isLoading && metadata.last_page > 1 && (
+        <div className='flex items-center justify-center'>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={() => fetchData()}
+            disabled={isLoading || !hasMore}
+          >
+            {hasMore ? 'Load more' : 'End of results'}
+          </Button>
+        </div>
       )}
     </div>
   )
