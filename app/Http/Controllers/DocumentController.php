@@ -9,12 +9,14 @@ class DocumentController extends Controller
 {
   public function get(Request $request)
   {
+    $user = Auth::user();
+
     $search = $request->search;
 
-    $documents = Auth::user()
+    $documents = $user
       ->documents()
       ->when($search, function ($query, $search) {
-        return $query->whereFullText('title', $search);
+        return $query->whereLike('title', '%' . $search . '%');
       })
       ->paginate(10);
 
